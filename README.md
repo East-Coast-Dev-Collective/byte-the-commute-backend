@@ -12,15 +12,19 @@ Byte The Commute Backend is the API service for the Byte The Commute app. It cur
 
 This is a placeholder setup flow for local development.
 
-1. `npm install`
-2. Create a `.env` file from `.env.example`
-3. `npm run dev`
-4. Test endpoints in browser or with `curl`
+1. Clone the repo down using the command: `git clone <url-from-green-code-button-above>`
+2. Create the `.env` file by copying the dummy environment file and giving it the filename of `.env`. You can use this command (ensure you are in the repository's root directory):
+`cp renameme.env .env`
+Ensure that you use the `.env` file going forward.
+3. Run `npm install`
+4. You can test out the site by running: `npm run dev`
+5. Test endpoints in browser or with `curl`
 
 Some features are still placeholder and not fully implemented yet, but these are the expected local run steps.
 
 ## Environment Variables
 
+You will need to replace the dummy values with real values in the `.env` file:
 - `PORT`
 - `DATABASE_URL`
 - `JWT_SECRET`
