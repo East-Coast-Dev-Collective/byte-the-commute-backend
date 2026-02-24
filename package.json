@@ -1,0 +1,27 @@
+{
+  "name": "byte-the-commute-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Byte The Commute Backend serves as the database and backend for the Byte The Commute App",
+  "main": "server.js",
+  "scripts": {
+    "test": "vitest",
+    "start": "node --env-file=.env server.js",
+    "dev": "node --watch --env-file=.env server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/East-Coast-Dev-Collective/byte-the-commute-backend.git"
+  },
+  "author": "East Coast Dev Collective",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/East-Coast-Dev-Collective/byte-the-commute-backend/issues"
+  },
+  "homepage": "https://github.com/East-Coast-Dev-Collective/byte-the-commute-backend#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.18.0"
+  }
+}
