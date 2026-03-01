@@ -61,3 +61,6 @@ Create a feature branch, make focused changes, and open a pull request. Another 
 GTFS (General Transit Feed Specification) is a common format for public transit schedules and route data. Transit agencies publish GTFS feeds so apps can consistently read trips, stops, and calendars. This backend will later ingest GTFS data to support routes, stops, and next departures.
 
 For weather support, the backend will use each stop's latitude and longitude and call the Open-Meteo API. That response can be attached to stop or departure results to provide local weather context.
+
+### Things that will need to change when moved to production
+- The domain passed to CORS that allows cross-origin requests -- see app.js
