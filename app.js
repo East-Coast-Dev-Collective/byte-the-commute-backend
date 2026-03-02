@@ -10,6 +10,9 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "success", message: "Server healthy!" });
 });
 
+app.get("/api/ping", (req, res) => {
+  res.json({ status: "success", pong: true });
+})
 
 // matches all routes that have not yet been matched -- catch-all
 // should come after all other routes, but before error handling
