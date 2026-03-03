@@ -71,7 +71,7 @@ Environment Setup
 
 This project requires API keys for Google Maps and OpenWeather.
 
-In the .env folder that will not be pushed to github repository,(added to gitignore file) update the the following variables:
+In the .env folder that will not be pushed to github repository,(added to gitignore file) update with the following variables:
 
 GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
 OPENWEATHER_API_KEY=your_openweather_api_key_here
