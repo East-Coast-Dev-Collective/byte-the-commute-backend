@@ -29,13 +29,33 @@ You will need to replace the dummy values with real values in the `.env` file:
 - `PORT`
 - `DATABASE_URL`
 - `JWT_SECRET`
+- `GOOGLE_MAPS_API_KEY`
 
 ## Endpoints
 
 Current:
 
-- `GET /health`
+- `GET /api/health`
 - `GET /api/ping`
+- `POST /api/route`
+
+### POST /api/route mode behavior
+
+Request body supports:
+
+```json
+{ "from": "...", "to": "...", "mode": "..." }
+```
+
+- `mode` is optional
+- Default mode: `drive`
+- Valid values: `drive`, `transit`, `walk`, `bike`
+- Invalid mode returns `400`
+- Mode mapping to Google Directions API:
+  - `drive` -> `driving`
+  - `transit` -> `transit`
+  - `walk` -> `walking`
+  - `bike` -> `bicycling`
 
 ### Planned
 

@@ -26,8 +26,10 @@ app.post("/api/route", async (req, res) => {
     return res.status(400).json({ error: "from and to are required" });
   }
 
-  //validate mode
-  const normalizedMode = mode.toString().toLowerCase();
+  // Normalize safely so null/number/etc. never crashes
+  const normalizedMode =
+    mode == null ? "drive" : String(mode).toLowerCase().trim();
+
   const allowedModes = new Set(["drive", "transit", "walk", "bike"]);
 
   if (!allowedModes.has(normalizedMode)) {
@@ -36,7 +38,7 @@ app.post("/api/route", async (req, res) => {
     });
   }
 
-  // map to Google Directions API
+  // Map app values to Google Directions API mode values
   const modeMap = {
     drive: "driving",
     transit: "transit",
