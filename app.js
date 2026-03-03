@@ -18,6 +18,52 @@ app.get("/api/ping", (req, res) => {
   res.json({ status: "success", pong: true });
 });
 
+// Return real route data from Google Directions API
+app.post("/api/route", async (req, res) => {
+  const { from, to } = req.body;
+
+  if (!from || !to) {
+    return res.status(400).json({ error: "from and to are required" });
+  }
+
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({ error: "Missing GOOGLE_MAPS_API_KEY" });
+  }
+
+  const url = new URL("https://maps.googleapis.com/maps/api/directions/json");
+  url.searchParams.set("origin", from);
+  url.searchParams.set("destination", to);
+  url.searchParams.set("key", apiKey);
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.status !== "OK" || !data.routes?.length) {
+      return res.status(400).json({ error: "No route found" });
+    }
+
+    const route = data.routes[0];
+    const leg = route.legs[0];
+
+    return res.json({
+      distanceText: leg.distance.text,
+      durationText: leg.duration.text,
+      polyline: route.overview_polyline.points,
+      startLocation: {
+        lat: leg.start_location.lat,
+        lng: leg.start_location.lng,
+      },
+      endLocation: {
+        lat: leg.end_location.lat,
+        lng: leg.end_location.lng,
+      },
+    });
+  } catch (err) {
+    return res.status(500).json({ error: "Something went wrong" });
+  }
+});
 // matches all routes that have not yet been matched -- catch-all
 // should come after all other routes, but before error handling
 app.use((req, res, next) => {
