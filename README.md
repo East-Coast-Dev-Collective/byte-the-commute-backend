@@ -14,8 +14,8 @@ This is a placeholder setup flow for local development.
 
 1. Clone the repo down using the command: `git clone <url-from-green-code-button-above>`
 2. Create the `.env` file by copying the dummy environment file and giving it the filename of `.env`. You can use this command (ensure you are in the repository's root directory):
-`cp renameme.env .env`
-Ensure that you use the `.env` file going forward.
+   `cp renameme.env .env`
+   Ensure that you use the `.env` file going forward.
 3. Run `npm install`
 4. You can test out the site by running: `npm run dev`
 5. Test endpoints in browser or with `curl`
@@ -25,6 +25,7 @@ Some features are still placeholder and not fully implemented yet, but these are
 ## Environment Variables
 
 You will need to replace the dummy values with real values in the `.env` file:
+
 - `PORT`
 - `DATABASE_URL`
 - `JWT_SECRET`
@@ -63,4 +64,14 @@ GTFS (General Transit Feed Specification) is a common format for public transit 
 For weather support, the backend will use each stop's latitude and longitude and call the Open-Meteo API. That response can be attached to stop or departure results to provide local weather context.
 
 ### Things that will need to change when moved to production
+
 - The domain passed to CORS that allows cross-origin requests -- see app.js
+
+Environment Setup
+
+This project requires API keys for Google Maps and OpenWeather.
+
+In the .env folder that will not be pushed to github repository,(added to gitignore file) update the the following variables:
+
+GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
+OPENWEATHER_API_KEY=your_openweather_api_key_here
