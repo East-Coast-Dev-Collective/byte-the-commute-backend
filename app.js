@@ -20,11 +20,29 @@ app.get("/api/ping", (req, res) => {
 
 // Return real route data from Google Directions API
 app.post("/api/route", async (req, res) => {
-  const { from, to } = req.body;
+  const { from, to, mode = "drive" } = req.body;
 
   if (!from || !to) {
     return res.status(400).json({ error: "from and to are required" });
   }
+
+  //validate mode
+  const normalizedMode = mode.toString().toLowerCase();
+  const allowedModes = new Set(["drive", "transit", "walk", "bike"]);
+
+  if (!allowedModes.has(normalizedMode)) {
+    return res.status(400).json({
+      error: "Invalid mode. Must be one of: drive, transit, walk, bike",
+    });
+  }
+
+  // map to Google Directions API
+  const modeMap = {
+    drive: "driving",
+    transit: "transit",
+    walk: "walking",
+    bike: "bicycling",
+  };
 
   const apiKey = process.env.GOOGLE_MAPS_API_KEY;
   if (!apiKey) {
@@ -34,6 +52,7 @@ app.post("/api/route", async (req, res) => {
   const url = new URL("https://maps.googleapis.com/maps/api/directions/json");
   url.searchParams.set("origin", from);
   url.searchParams.set("destination", to);
+  url.searchParams.set("mode", modeMap[normalizedMode]);
   url.searchParams.set("key", apiKey);
 
   try {
@@ -48,6 +67,7 @@ app.post("/api/route", async (req, res) => {
     const leg = route.legs[0];
 
     return res.json({
+      mode: normalizedMode,
       distanceText: leg.distance.text,
       durationText: leg.duration.text,
       polyline: route.overview_polyline.points,
