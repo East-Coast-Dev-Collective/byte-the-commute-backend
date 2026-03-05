@@ -1,9 +1,10 @@
 const OPEN_WEATHER_API_KEY=process.env.OPEN_WEATHER_API_KEY
-const WEATHER_CURRENT_API_BASE_URL = process.env.WEATHER_CURRENT_API_BASE_URL;
-const WEATHER_3HOUR_API_BASE_URL = process.env.WEATHER_3HOUR_API_BASE_URL;
+
+const WEATHER_CURRENT_API_BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
+const WEATHER_3HOUR_API_BASE_URL = "https://api.openweathermap.org/data/2.5/forecast"
 
 // this is not used because the OpenWeather API errors for many of the icons currently
-const WEATHER_ICON_BASE_URL = process.env.WEATHER_ICON_BASE_URL;
+const WEATHER_ICON_BASE_URL = "https://openweathermap.org/payload/api/media/file"
 
 
 const getWeather = async ({ lat, lon, apiUrl }) => {
@@ -105,7 +106,14 @@ export const getForecastWeatherAll = async ({ lat, lon }) => {
 export const getCurrWeather = async ({ lat, lon }) => {
   /**
    * The weather condition codes are discussed here: https://openweathermap.org/weather-conditions
-   *
+    
+   Returns
+   currWeatherInfo (object): has four keys: currTemp, currFeelsLike, currHumidity, and overview.
+     overview is a list of objects, with the zero index item being the primary weather
+     condition object that contains id, main, description, and icon for the current 
+     weather condition
+     
+   See here for more info: https://openweathermap.org/current?collection=current_forecast
    */
   const { main, weather } = await getCurrWeatherAll({ lat: lat, lon: lon });
 
