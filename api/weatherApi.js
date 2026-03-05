@@ -125,15 +125,3 @@ export const getCurrWeather = async ({ lat, lon }) => {
   }
   return currWeatherInfo;
 }
-
-
-
-const testCurrWeather = async () => {
-  const dcWeather = await getCurrWeather({
-    lat: 38.89006,
-    lon: -77.00874,
-  });
-  console.log("weather forecast in DC: ", dcWeather);
-};
-
-//await testCurrWeather();
