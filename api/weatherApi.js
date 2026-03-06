@@ -6,6 +6,9 @@ const WEATHER_CURRENT_API_BASE_URL =
 const WEATHER_3HOUR_API_BASE_URL =
   "https://api.openweathermap.org/data/2.5/forecast";
 
+// this is not used because the OpenWeather API errors for many of the icons currently
+// const WEATHER_ICON_BASE_URL = "https://openweathermap.org/payload/api/media/file";
+
 const getWeather = async ({ lat, lon, apiUrl }) => {
   /*
   Parameters:
@@ -14,10 +17,14 @@ const getWeather = async ({ lat, lon, apiUrl }) => {
   apiUrl (string): The particular weather API URL to use. Determines
     whether the function returns current weather or the forecast
 
+  The URL endpoint must have the following query parameters:
+   'lat', 'lon', and 'appid'
+
   Returns:
   object
   */
 
+  // validate lat and lon
   if (lat == null || lon == null) {
     throw new Error("Missing required parameters: lat, lon");
   }
@@ -42,6 +49,7 @@ const getWeather = async ({ lat, lon, apiUrl }) => {
     );
   }
 
+  // add query parameters
   const params = new URLSearchParams();
   params.append("lat", lat);
   params.append("lon", lon);
@@ -50,6 +58,7 @@ const getWeather = async ({ lat, lon, apiUrl }) => {
 
   try {
     const resp = await fetch(`${apiUrl}?${params}`);
+    // check for HTTP error
     if (!resp.ok) {
       throw new Error(`HTTP error: Status: ${resp.status}`);
     }
@@ -63,6 +72,17 @@ const getWeather = async ({ lat, lon, apiUrl }) => {
 };
 
 export const getCurrWeatherAll = async ({ lat, lon }) => {
+  /*
+  Parameters:
+  lat (number): latitude, must be in range -90 to 90
+  lon (number): longitude, must be in range -180 to 180
+
+  The URL endpoint must have the following query parameters:
+   'lat', 'lon', and 'appid'
+
+  Returns:
+  object
+  */
   const weatherJson = await getWeather({
     lat,
     lon,
@@ -72,6 +92,17 @@ export const getCurrWeatherAll = async ({ lat, lon }) => {
 };
 
 export const getForecastWeatherAll = async ({ lat, lon }) => {
+  /*
+  Parameters:
+  lat (number): latitude, must be in range -90 to 90
+  lon (number): longitude, must be in range -180 to 180
+
+  The URL endpoint must have the following query parameters:
+   'lat', 'lon', and 'appid'
+
+  Returns:
+  object
+  */
   const weatherJson = await getWeather({
     lat,
     lon,
@@ -81,6 +112,17 @@ export const getForecastWeatherAll = async ({ lat, lon }) => {
 };
 
 export const getCurrWeather = async ({ lat, lon }) => {
+  /**
+   * The weather condition codes are discussed here: https://openweathermap.org/weather-conditions
+
+   Returns
+   currWeatherInfo (object): has four keys: currTemp, currFeelsLike, currHumidity, and overview.
+     overview is a list of objects, with the zero index item being the primary weather
+     condition object that contains id, main, description, and icon for the current
+     weather condition
+
+   See here for more info: https://openweathermap.org/current?collection=current_forecast
+   */
   const { main, weather } = await getCurrWeatherAll({ lat, lon });
 
   const currWeatherInfo = {
