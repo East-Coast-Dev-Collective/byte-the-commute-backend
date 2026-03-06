@@ -1,6 +1,6 @@
 ## Overview
 
-Byte The Commute Backend is the API service for the Byte The Commute app. It currently exposes basic health and ping endpoints and is being built to support route and transit features.
+Byte The Commute Backend is the API service for the Byte The Commute app. It currently exposes health, ping, weather, and route endpoints.
 
 ## Tech Stack
 
@@ -8,28 +8,23 @@ Byte The Commute Backend is the API service for the Byte The Commute app. It cur
 - Express.js
 - PostgreSQL (planned integration)
 
-## How To Run Locally (Placeholder)
+## How To Run Locally
 
-This is a placeholder setup flow for local development.
-
-1. Clone the repo down using the command: `git clone <url-from-green-code-button-above>`
-2. Create the `.env` file by copying the dummy environment file and giving it the filename of `.env`. You can use this command (ensure you are in the repository's root directory):
-   `cp renameme.env .env`
-   Ensure that you use the `.env` file going forward.
-3. Run `npm install`
-4. You can test out the site by running: `npm run dev`
-5. Test endpoints in browser or with `curl`
-
-Some features are still placeholder and not fully implemented yet, but these are the expected local run steps.
+1. Clone the repo.
+2. Create `.env` in the repository root.
+3. Run `npm install`.
+4. Start backend with `npm run dev`.
 
 ## Environment Variables
 
-You will need to replace the dummy values with real values in the `.env` file:
+Set these values in `.env`:
 
 - `PORT`
 - `DATABASE_URL`
 - `JWT_SECRET`
 - `GOOGLE_MAPS_API_KEY`
+- `OPEN_WEATHER_API_KEY` (preferred)
+- `OPENWEATHER_API_KEY` (legacy fallback supported)
 
 ## Endpoints
 
@@ -37,7 +32,30 @@ Current:
 
 - `GET /api/health`
 - `GET /api/ping`
+- `GET /api/weather`
 - `POST /api/route`
+
+### GET /api/weather behavior
+
+Query params:
+
+- `lat` (required, number, range `-90..90`)
+- `lng` (required, number, range `-180..180`)
+
+Invalid requests return `400`.
+
+Successful response fields:
+
+- `temperature`
+- `condition`
+- `icon`
+- `feelsLike`
+
+Example request:
+
+```text
+GET /api/weather?lat=38.89006&lng=-77.00874
+```
 
 ### POST /api/route mode behavior
 
@@ -57,41 +75,15 @@ Request body supports:
   - `walk` -> `walking`
   - `bike` -> `bicycling`
 
-### Planned
-
-- `GET /api/routes`
-- `GET /api/stops`
-- `GET /api/departures`
-
-## Folder Structure
-
-- `api`
-- `db`
-
 ## Scripts
 
 - `dev`
 - `start`
-
-## Workflow
-
-Create a feature branch, make focused changes, and open a pull request. Another team member reviews the PR, requests changes if needed, and approves before merge.
+- `test:weather`
+- `test:weather:endpoint`
 
 ## Notes
 
-GTFS (General Transit Feed Specification) is a common format for public transit schedules and route data. Transit agencies publish GTFS feeds so apps can consistently read trips, stops, and calendars. This backend will later ingest GTFS data to support routes, stops, and next departures.
+Weather data is fetched from OpenWeather. Route data is fetched from Google Directions API.
 
-For weather support, the backend will use each stop's latitude and longitude and call the Open-Meteo API. That response can be attached to stop or departure results to provide local weather context.
-
-### Things that will need to change when moved to production
-
-- The domain passed to CORS that allows cross-origin requests -- see app.js
-
-Environment Setup
-
-This project requires API keys for Google Maps and OpenWeather.
-
-In the .env folder that will not be pushed to github repository,(added to gitignore file) update with the following variables:
-
-GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
-OPENWEATHER_API_KEY=your_openweather_api_key_here
+When moving to production, update CORS origin in `app.js`.
