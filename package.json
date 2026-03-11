@@ -9,7 +9,8 @@
     "start": "node --env-file=.env server.js",
     "dev": "nodemon --env-file=.env server.js",
     "test:weather": "node --env-file=.env tests/weatherTests.js",
-    "test:weather:endpoint": "node --env-file=.env tests/weatherEndpointChecks.js"
+    "test:weather:endpoint": "node --env-file=.env tests/weatherEndpointChecks.js",
+    "db:schema": "psql -U byte_the_commute_user -h localhost -d byte_the_commute -f db/schema.sql"
   },
   "repository": {
     "type": "git",
