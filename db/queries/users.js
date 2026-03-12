@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import db from "../client.js";
 
-export const createUser = aysnc ({ username, password }) => {
+export const createUser = async ({ username, password }) => {
   const sql = `
   INSERT INTO users (username, password)
   VALUES ($1, $2)
@@ -55,7 +55,7 @@ export const getUserByUsernamePassword = async ({ username, password }) => {
   }
 };
 
-export const createUserSettings = aysnc ({ userId, defaultStartId, defaultEndId, defaultMode, avoidTolls }) => {
+export const createUserSettings = async ({ userId, defaultStartId, defaultEndId, defaultMode, avoidTolls }) => {
   const sql = `
   INSERT INTO user_settings (user_id, default_start_id, default_end_id, default_mode, avoid_tolls)
   VALUES ($1, $2, $3, $4, $5)

@@ -13,7 +13,13 @@ Byte The Commute Backend is the API service for the Byte The Commute app. It cur
 1. Clone the repo.
 2. Create `.env` in the repository root.
 3. Run `npm install`.
-4. Start backend with `npm run dev`.
+4. To setup the database, ensure that you have Postgres installed.
+5. Create the database and name it `byte_the_commute`. You can create the db using `createdb byte_the_commute`
+6. Add a `DATABASE_URL` variable to your `.env` file. It should be in the form:
+    `DATABASE_URL=postgres://<db-username>:<db-user-password>@localhost:5432/byte_the_commute`
+7. Run `npm run db:schema`. Your database is now created!
+8. If you want to seed your database with dummy data, run `npm run db:seed`.
+9. Start backend with `npm run dev`.
 
 ## Environment Variables
 
