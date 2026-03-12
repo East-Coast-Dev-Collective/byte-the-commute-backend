@@ -3,7 +3,6 @@ import { getRouteFromGoogle } from "../api/routeApi.js";
 
 const router = express.Router();
 
-// Return real route data from Google Directions API
 router.post("/", async (req, res) => {
   const { from, to, mode = "drive" } = req.body;
 
@@ -23,29 +22,13 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    const data = await getRouteFromGoogle({
+    const routeData = await getRouteFromGoogle({
       from,
       to,
       mode: normalizedMode,
     });
 
-    const route = data.routes[0];
-    const leg = route.legs[0];
-
-    return res.json({
-      mode: normalizedMode,
-      distanceText: leg.distance.text,
-      durationText: leg.duration.text,
-      polyline: route.overview_polyline.points,
-      startLocation: {
-        lat: leg.start_location.lat,
-        lng: leg.start_location.lng,
-      },
-      endLocation: {
-        lat: leg.end_location.lat,
-        lng: leg.end_location.lng,
-      },
-    });
+    return res.json(routeData);
   } catch (err) {
     if (String(err?.message).includes("Missing GOOGLE_MAPS_API_KEY")) {
       return res.status(500).json({ error: "Missing GOOGLE_MAPS_API_KEY" });
