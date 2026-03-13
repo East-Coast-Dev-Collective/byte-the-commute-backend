@@ -10,7 +10,7 @@ export const createUser = async ({ username, password }) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const { rows: [user] } = await db.query(sql, [username, hashedPassword]);
-    return user;
+    return { id: user.id, username: user.username };
   } catch (err) {
     console.error('error in query: ', err);
     throw err;
