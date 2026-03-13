@@ -2,14 +2,18 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-import { getCurrWeatherAll } from "./api/weatherApi.js";
+import weatherRoutes from "./routes/weatherRoutes.js";
+import routeRoutes from "./routes/routeRoutes.js";
 
 const app = express();
 
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173" }));
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/weather", weatherRoutes);
+app.use("/api/route", routeRoutes);
 
 app.get("/api/health", (req, res) => {
   res.json({ status: "success", message: "Server healthy!" });
