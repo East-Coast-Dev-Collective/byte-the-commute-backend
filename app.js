@@ -8,7 +8,7 @@ import routeRoutes from "./routes/routeRoutes.js";
 const app = express();
 
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({ origin: "https://69b3737d62eace4a17447e11--bytethecommute.netlify.app" }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
