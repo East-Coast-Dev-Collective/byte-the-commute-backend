@@ -8,7 +8,7 @@ import routeRoutes from "./routes/routeRoutes.js";
 const app = express();
 
 app.use(express.json());
-app.use(cors({ origin: "https://bytethecommute.netlify.app" }));
+app.use(cors({ origin: process.env.CORS_ORIGIN }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
